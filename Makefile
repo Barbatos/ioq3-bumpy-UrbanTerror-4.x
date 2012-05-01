@@ -37,10 +37,10 @@ ifndef BUILD_CLIENT
   BUILD_CLIENT     = 1
 endif
 ifndef BUILD_CLIENT_SMP
-  BUILD_CLIENT_SMP = 1
+  BUILD_CLIENT_SMP = 0
 endif
 ifndef BUILD_CLIENT_TTY
-  BUILD_CLIENT_TTY = 1
+  BUILD_CLIENT_TTY = 0
 endif
 ifndef BUILD_SERVER
   BUILD_SERVER     = 1
@@ -640,6 +640,9 @@ else # ifeq darwin
 
 ifeq ($(PLATFORM),mingw32)
 
+  #Barbatos
+  CC=gcc
+  
   ifndef WINDRES
     WINDRES=windres
   endif
