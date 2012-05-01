@@ -26,10 +26,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 // q_shared.h -- included first by ALL program modules.
 // A user mod should never modify this file
 
-#define PRODUCT_NAME			"ioUrT"
+#define PRODUCT_NAME			"Quake3-UrT"
 #define BASEGAME			"q3ut4"
-#define CLIENT_WINDOW_TITLE     	"ioUrbanTerror"
-#define CLIENT_WINDOW_MIN_TITLE 	"ioUrT"
+#define CLIENT_WINDOW_TITLE     	"Quake3-UrT"
+#define CLIENT_WINDOW_MIN_TITLE 	"Q3-UrT"
 #define GAMENAME_FOR_MASTER		"q3ut42"	// must NOT contain whitespaces
 #define DEFAULT_FS_PATH			"q3ut4"
 
