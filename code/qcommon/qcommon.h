@@ -254,13 +254,6 @@ PROTOCOL
 // NOTE: that stuff only works with two digits protocols
 extern int demo_protocols[];
 
-#ifdef USE_PASSPORT
-  #define PASSPORT_SERVER_NAME	"authserver.urbanterror.info"
-  #ifndef PORT_AUTHORIZE
-   #define PORT_AUTHORIZE		27952
-  #endif
-#endif
-
 #ifndef MASTER_SERVER_NAME
  #define MASTER_SERVER_NAME	"master.urbanterror.info"
 #endif

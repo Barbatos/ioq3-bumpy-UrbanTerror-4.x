@@ -26,26 +26,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 // q_shared.h -- included first by ALL program modules.
 // A user mod should never modify this file
 
-#ifdef USE_PASSPORT
-	#define PRODUCT_NAME			"ioUrT"
-	#define BASEGAME			"q3ut4"
-	#define CLIENT_WINDOW_TITLE     	"ioUrbanTerror"
-	#define CLIENT_WINDOW_MIN_TITLE 	"ioUrT"
-	#define GAMENAME_FOR_MASTER		"q3ut4"	// must NOT contain whitespaces
-	#define DEFAULT_FS_PATH			"q3ut4"
-
-	#define PASSPORT_MAX_RENAMES			5
-	#define PASSPORT_PROTOCOL			1
-	#define PASSPORT_CMD_PRE			"pp-"
-	#define PASSPORT_SITE		"www.urbanterror.info"
-#else
-	#define PRODUCT_NAME			"ioUrT"
-	#define BASEGAME			"q3ut4"
-	#define CLIENT_WINDOW_TITLE     	"ioUrbanTerror"
-	#define CLIENT_WINDOW_MIN_TITLE 	"ioUrT"
-	#define GAMENAME_FOR_MASTER		"q3ut4"	// must NOT contain whitespaces
-	#define DEFAULT_FS_PATH			"q3ut4"
-#endif
+#define PRODUCT_NAME			"ioUrT"
+#define BASEGAME			"q3ut4"
+#define CLIENT_WINDOW_TITLE     	"ioUrbanTerror"
+#define CLIENT_WINDOW_MIN_TITLE 	"ioUrT"
+#define GAMENAME_FOR_MASTER		"q3ut42"	// must NOT contain whitespaces
+#define DEFAULT_FS_PATH			"q3ut4"
 
 #define HOME_PATH					"urbanterror"
 

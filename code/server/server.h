@@ -212,9 +212,6 @@ typedef struct {
 	int			firstTime;			// time the adr was first used, for authorize timeout checks
 	qboolean	wasrefused;
 	qboolean	connected;
-#ifdef USE_PASSPORT
-	int			counter;			// count the number of response sent to client
-#endif
 } challenge_t;
 
 
@@ -236,9 +233,6 @@ typedef struct {
 	int			nextHeartbeatTime;
 	challenge_t	challenges[MAX_CHALLENGES];	// to prevent invalid IPs from connecting
 	netadr_t	redirectAddress;			// for rcon return messages
-#ifdef USE_PASSPORT
-	netadr_t	authorizeAddress;			// for authorize server
-#endif
 } serverStatic_t;
 
 #define SERVER_MAXBANS	1024
