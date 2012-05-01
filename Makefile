@@ -190,13 +190,9 @@ endif
 
 #############################################################################
 
-ifeq ($(BUILD_PASSPORT),1)
-  BD=$(BUILD_DIR)/debug-$(PLATFORM)-$(ARCH)
-  BR=$(BUILD_DIR)/release-$(PLATFORM)-$(ARCH)
-else
-  BD=$(BUILD_DIR)/debug-$(PLATFORM)-$(ARCH)
-  BR=$(BUILD_DIR)/release-$(PLATFORM)-$(ARCH)
-endif
+BD=$(BUILD_DIR)/debug-$(PLATFORM)-$(ARCH)
+BR=$(BUILD_DIR)/release-$(PLATFORM)-$(ARCH)
+  
 CDIR=$(MOUNT_DIR)/client
 SDIR=$(MOUNT_DIR)/server
 RDIR=$(MOUNT_DIR)/renderer

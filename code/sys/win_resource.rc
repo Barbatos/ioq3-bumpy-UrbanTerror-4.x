@@ -66,11 +66,7 @@ IDI_ICON1               ICON    DISCARDABLE     "misc/ioUrbanTerror.ico"
 
 STRINGTABLE DISCARDABLE 
 BEGIN
-#ifdef USE_PASSPORT
 IDS_STRING1             "ioUrbanTerror"
-#else
-IDS_STRING1             "ioUrbanTerror"
-#endif
 END
 
 #endif    // English (U.S.) resources
