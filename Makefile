@@ -28,10 +28,10 @@ ifeq ($(COMPILE_PLATFORM),mingw32)
 endif
 
 ifndef BUILD_DED_NAME
-  BUILD_DED_NAME=iourtded
+  BUILD_DED_NAME=Quake3-UrT-ded
 endif
 ifndef BUILD_NAME
-  BUILD_NAME=iourbanterror
+  BUILD_NAME=Quake3-UrT
 endif
 ifndef BUILD_CLIENT
   BUILD_CLIENT     = 1
@@ -49,13 +49,7 @@ ifndef BUILD_GAME_SO
   BUILD_GAME_SO    = 0
 endif
 ifndef BUILD_GAME_QVM
-  BUILD_GAME_QVM   = 1
-endif
-ifndef BUILD_PASSPORT
-  BUILD_PASSPORT   = 1
-endif
-ifndef BUILD_PASSPORT_TEST_CODE
-  BUILD_PASSPORT_TEST_CODE   = 0
+  BUILD_GAME_QVM   = 0
 endif
 
 # SMP only works on Mac, Linux and Windows
