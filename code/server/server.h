@@ -189,36 +189,6 @@ typedef struct client_s {
 	int queuedVoipPackets;
 #endif
 
-#ifdef USE_PASSPORT
-	int				renames;							// rename counter
-	char			lastname[MAX_NAME_LENGTH];			// last name
-	char			dropreason[128];					// drop short reason
-	char			dropmessage[256];					// drop client message
-	int				droptime;							// drop time
-	char			pp_login[32];						// client Passport login
-	char			pp_notoriety[32];					// client Passport notoriety
-	int				pp_level;							// client level on server
-	int				pp_auth_state;						// state with authserver
-	int				pp_auth_time;						// time of last request
-	#define PASSPORT_AUTH_TIMEOUT			3000
-	#define PASSPORT_AUTH_MAX_REQUEST		5
-	#define MAX_CHALLENGE_RESPONSES		5
-	#define PASSPORT_PRINT_PREFIX			"^5[passport] "
-	#define PASSPORT_RCON_ANSWER_PREFIX		"^6[rcon] "
-	/*
-	client levels : 
-	[0] = 'disabled user';
-	[1] = 'standart';
-	[2] = 'friend';
-	[3] = 'member';
-	[4] = 'referee';
-	[5] = 'rcon owner';
-	[6] = 'admin';
-	[7] = 'Passport admin';
-	[8] = 'Frozen Sand';
-	*/
-#endif
-
 	int				oldServerTime;
 	qboolean			csUpdated[MAX_CONFIGSTRINGS+1];	
 } client_t;
@@ -329,33 +299,6 @@ extern	int serverBansCount;
 extern	cvar_t	*sv_voip;
 #endif
 
-#ifdef USE_PASSPORT
-
-extern int		pp_enabled;				// state
-extern int		pp_rcon_idnum;			// last rcon client idnum
-extern char		*pp_header;				// command header
-extern char		*pp_heartbeat;			// status for heartbeat
-extern char		*pp_players;			// players for heartbeat
-
-extern cvar_t	*passport;				// Passport public status
-
-extern cvar_t	*sv_passport;			// 0 Passport disabled - 1 enabled
-
-extern cvar_t	*pp_verbosity;			// 0 no message - 1 messages on top - 2 messages on bottom
-extern cvar_t	*pp_log;				// 0 no log - 1 Passport infos in game log
-extern cvar_t	*pp_cheaters;			// 0 accept cheaters - 1 refuse banned IPs and logins
-extern cvar_t	*pp_nicknames;			// 0 accept all nicknames - 1 refuse stolen nicknames
-extern cvar_t	*pp_tags;				// 0 no tag checking - 1 refuse stolen clan tags
-extern cvar_t	*pp_notoriety;			// 0 accept everybody - 1 require valid Passport for every players - 10,20,30 etc. limit to players with this notoriety		
-extern cvar_t	*pp_groups;			// "" accept everybody - "group1 group2" require to be member of one of these groups	
-extern cvar_t	*pp_rcon_groups;		// 0 password only rcon - "group1 group2" require to be admin/referree/member/friend of one of these groups
-extern cvar_t	*pp_cmd_anonymous;		// avalaible commands for anonymous rcon
-extern cvar_t	*pp_cmd_passport;		// avalaible commands for passport rcon
-extern cvar_t	*pp_cmd_friend;		// avalaible commands for friends rcon
-extern cvar_t	*pp_cmd_member;		// avalaible commands for member rcon
-extern cvar_t	*pp_cmd_referee;		// avalaible commands for referee rcon
-
-#endif
 
 //===========================================================
 
@@ -399,16 +342,6 @@ void SV_SpawnServer( char *server, qboolean killBots );
 void SV_GetChallenge( netadr_t from );
 
 void SV_DirectConnect( netadr_t from );
-
-#ifdef USE_PASSPORT
-void SV_PP_AuthorizeIpPacket( netadr_t from );
-void SV_PP_AuthorizeClientPacket( netadr_t from );
-void SV_PP_DropClient( int idnum, char *reason, char *message );
-void SV_PP_Cvars_Init( void );
-void SV_PP_Authserver_Init( void );
-void SV_PP_Print_User_Infos_f( client_t *cl, client_t *cl_target );
-void SV_PP_auth_request( client_t *cl );
-#endif
 
 void SV_ExecuteClientMessage( client_t *cl, msg_t *msg );
 void SV_UserinfoChanged( client_t *cl );

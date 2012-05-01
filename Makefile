@@ -248,15 +248,14 @@ endif
 
 # version info
 VERSION_NUMBER=1.35
-URT_VERSION_NUMBER=4.1
-PP_VERSION_NUMBER=0.93
+URT_VERSION_NUMBER=4.2
 
 ifeq ($(USE_SCM_VERSION),1)
   # For svn
   ifeq ($(wildcard .svn),.svn)
     SVN_REV=$(shell LANG=C svnversion .)
     ifneq ($(SVN_REV),)
-      VERSION=$(VERSION_NUMBER)_UrT.$(SVN_REV)_pp.$(PP_VERSION_NUMBER)
+      VERSION=$(VERSION_NUMBER)_UrT.$(SVN_REV)
       USE_SVN=1
     endif
   endif
@@ -265,7 +264,7 @@ ifeq ($(USE_SCM_VERSION),1)
   ifeq ($(wildcard .git/svn/.metadata),.git/svn/.metadata)
     GIT_SVN_REV=$(shell LANG=C git svn info | awk '$$1 == "Revision:" {print $$2; exit 0}')
     ifneq ($(GIT_SVN_REV),)
-      VERSION=$(VERSION_NUMBER)_UrT$(GIT_SVN_REV)_pp.$(PP_VERSION_NUMBER)
+      VERSION=$(VERSION_NUMBER)_UrT$(GIT_SVN_REV)
       USE_GIT_SVN=1
     endif
   endif
@@ -274,7 +273,7 @@ ifeq ($(USE_SCM_VERSION),1)
   ifeq ($(wildcard .hg),.hg)
     HG_REV=$(shell LANG=C hg id -n)
     ifneq ($(HG_REV),)
-      VERSION=$(VERSION_NUMBER)_UrT$(HG_REV)_pp.$(PP_VERSION_NUMBER)
+      VERSION=$(VERSION_NUMBER)_UrT$(HG_REV)
       USE_HG=1
     endif
   endif
@@ -283,13 +282,13 @@ ifeq ($(USE_SCM_VERSION),1)
   ifeq ($(wildcard .git),.git)
     GIT_REV=$(shell LANG=C git show-ref -h -s --abbrev | head -n1)
     ifneq ($(GIT_REV),)
-      VERSION=$(VERSION_NUMBER)_UrT$(GIT_REV)_pp.$(PP_VERSION_NUMBER)
+      VERSION=$(VERSION_NUMBER)_UrT$(GIT_REV)
       USE_GIT=1
     endif
   endif
 
 else
-  VERSION=$(VERSION_NUMBER)_UrT.$(URT_VERSION_NUMBER)_pp.$(PP_VERSION_NUMBER)
+  VERSION=$(VERSION_NUMBER)_UrT.$(URT_VERSION_NUMBER)
 endif
 
 
