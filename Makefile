@@ -502,6 +502,8 @@ ifeq ($(PLATFORM),darwin)
     # x86 vm will crash without -mstackrealign since MMX instructions will be
     # used no matter what and they corrupt the frame pointer in VM calls
     BASE_CFLAGS += -mstackrealign
+    # default compiler targets x86_64 on the system I'm on
+    BASE_CFLAGS += -m32
   endif
 
   BASE_CFLAGS += -DMACOS_X -fno-common -pipe
@@ -1163,6 +1165,7 @@ endif
 
 BASE_CFLAGS += -DPRODUCT_VERSION=\\\"$(VERSION)\\\"
 
+# NOTE: This controls echo of commands to the terminal during compilation. Invoke with make V=1
 ifeq ($(V),1)
   echo_cmd=@:
   Q=

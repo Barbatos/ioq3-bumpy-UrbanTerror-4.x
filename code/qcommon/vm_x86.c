@@ -89,8 +89,7 @@ static	int		ftolPtr = (int)qftol0F7F;
 void AsmCall(void);
 static void (*const asmCallPtr)(void) = AsmCall;
 
-
-static	int		callMask = 0;
+__attribute__((used)) static int callMask = 0;
 
 static	int	instruction, pass;
 static	int	lastConst = 0;
