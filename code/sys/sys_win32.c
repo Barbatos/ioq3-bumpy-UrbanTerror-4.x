@@ -77,7 +77,7 @@ char *Sys_DefaultHomePath( void )
 			return NULL;
 		}
 		Q_strncpyz( homePath, szPath, sizeof( homePath ) );
-		Q_strcat( homePath, sizeof( homePath ), "\\My Games\\" HOME_PATH );
+		Q_strcat( homePath, sizeof( homePath ), "\\My Games\\" HOME_PATH_WIN );
 	}
 
 	return homePath;
