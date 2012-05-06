@@ -1,0 +1,174 @@
+-Update to v7a/fs_q3map_radbump_3 - First attempt at specular compiles via deluxemapping.  Use -radbump as per usual
+
+-Update to 42_bumpy_v6 -  fixed hom mirrors (shader was being incorrectly selected for optimization), fixed no stage shaders.
+
+-Update to 42_bumpy_v5 - Added some deforms, fixed alot of bugs in glsl shader selection, added r_fancywater 2 to do fallback fancy water if you don't want the fps hit but still want some candy.
+More fixes, patches wernt vertex lighting at all (Copied the data incorrectly)
+More fixes, redid the hash checks for glsl shaders/surface merging.
+
+
+-Update to 42_bumpy_v3 - Added alot more shader combinations to the fast path, most notably transparent surfaces and vertex lit surfaces.  Going to add some more next build, along with deforms.
+
+
+-Update to 42_Bumpy_v2 - Fixed a deep driver crash bug in the renderer. Readded vsync (oops). Compiled without openAL.
+
+-Update 21: Many Moons later..  Rebuild this around the 4.1 exe borrowing some fixes from the latest ioquake fork.  No SDL though, too many issues.   Rewrote the DOF and Bloom shaders, its a bit more gaudy but better looking imho.  AUtodownload may or may not be broken.
+
+
+-update 20:
+Added r_autobump 1, its on by default.  This makes all maps bumpy, of course its better if you can supply your own and a .rad.. but better then nothing 99% of the time.  Also fixed some minor bugs.
+
+(also be aware this build is shutting down on vid_restart for no apparent reason, that fix is coming.)
+
+
+-update 19:
+You can use _B maps on their own now (alpha does specular, same as _N). The normals will be automatically generated from the _B at loadup.
+
+
+-update 18:
+added glslinfo command.
+It prints a bit of info about the current glsl settings and shaders, trying to track down an issue someone with an older ps2.0 card is having.
+
+-update 17:
+
+added r_glsl_debug  var.  Set to 1 to turn all the glsl shaders green, so you can see whats being optimized and what isn't.
+
+-update 16:
+Patch meshes optimized into the fast path. This frees up considerable CPU on maps with alot of patches.  Essentially I tesselate them at their finest lod at startup, and make static surfaces out of them.  
+
+-update 15:
+zfar calculates dynamically again.  Might cause issues? Keep an eye out for fog or dof snapping weirdly.
+re-added the fix for r_fogdensity not being reset between map changes.
+added alpha blended lightmapped terrain to the optimized path  (see: ut4_tombs)
+
+
+-update 14:
+Huge update.  
+removed r_ssao
+merged with the tree we're using for 4.2
+cleaned up all the r_glsl code
+fixed waters edge clipping issue
+fixed r_dof
+removed using scene alpha for an acceleration of post processing - macs cant do it
+
+
+-Update 13:
+fixed some bugs I found during the speedmapping comp.  Toned down the number of taps the dof shader uses.
+Dramatically improved q3map2s handing of large ase files.
+
+
+-Update 12:
+
+Added r_SSAO, off by default.  I consider this a bit of a personal failure but its subtle and there, if someone else wants to er.. tune?.. around with it be my guest.
+Retuned r_bloom to be more scifi looking on r_bloom 1.
+Added r_simpleshaders to turn off all the shader processing and just let you get the performance of using r_vbo etc.
+
+-Known Bug: skybox/object outline using AA and heavy global fog.
+
+
+-Update 11: Optimized the post processing shaders a bit by doing a pre-pass to build the linear z into scene alpha.  Removed a few redundant texture reads and alot of redundant math.  About 30% faster dof this way, and it'll be better for SSAO when I get aroudn to it next.
+Requested framebuffer to have an 8 bit alpha channel + updated code.
+
+-update 10: cubemap_probe entitys now supported, for manual probe placement.
+
+
+-update 9:  Seperated r_dof out into its own set of shaders.. so turn it off if it chugs you.
+
+
+-update 8: Changed depth of field to be a proper circle of confusion
+r_dofscale controls how blurry things get (r_dofscale 0 to turn off)
+r_dofblend controls how quickly (percent wise)  to transition to a new autofocus dof.. slower tends to be nicer, but its going to be user subjective.
+
+-Update 7: added fog, added depth of field
+
+r_fogdensity  0.00002 is nice
+r_fog_r/r_fog_g/r_fog_b controls color
+you can set this per map via the globalfog worldspawn key eg
+globalfog 0.2 0.2 0.2  0.0001
+
+r_dof 0/1 controls depth of field
+
+you need either dof or bloom on to see fog.
+
+-Update 6:  Fixed the too bright specular in window mode
+            Fixed parallax mapping tangent stuff
+            Fixed/Rederived radiosity bumpmapping so that it doesn't produce darker results then regular lighting
+
+-Update 5: Added Cheap Water, Added Offsetmapping
+
+
+Cheap Water - add q3map_cheapwater to your water surface shader
+
+q3map_cheapwater scale r g b - this is not really designed for swimming in - use it for small puddles
+however you can use as much of this as you like.
+
+Offset mapping works the same as _N texture usage for normal maps
+but you supply a _B texture.. like stonewall_b and stonewall_n
+
+It requires both a _b and and _n texture to work.
+
+
+
+-Update 4: Added FancyWater
+
+useage:  add q3map_fancywater to your water surface shader
+	 
+q3map_fancywater scale r g b  -- makes the surface a reflective/refractive water surf
+q3map_nofancywater -- turns a surface off if r_fancywater is turned on. 
+see: scripts/foamyseawater.shader for an example
+
+Currently the paramters for q3map_fancywater dont do anything and you can't specify the normalmap to use
+You do NOT need to recompile your map in q3map2 to make this work/test it.
+
+
+-Update 3: added -radbumpdebug, fixed a heap of issues with the compiler.
+
+
+-Update 2:  Huge changes - Added support for "radiosity bumpmapping".
+See the valve/hl2 shader paper for whats going on.
+
+1) Compile your map with the included q3map2_fs_radbump.exe using the -radbump flag in your lighting stage
+2) Wait 4x longer then normal =)
+3) include the mapname.rad with your mapname.bsp, much like an .aas file
+
+Maps compiled for radbump will look perfectly normal in standard q3. 
+But if you have _N texture files, the .rad file and the new engine, you'll get high quality per pixel
+radiosity bumpmapping.
+
+
+
+-Update: Added fresnel, removed "pow" specular. This looks alot better.
+
+Bumpmap and Specular Goodness in q3 without a recompile!
+
+* This includes all of the r_vbo, bloom, lightmap merging and decal code from the previous engine modifications.
+* run with r_vbo 2 or 3 for now.  r_vbo 1 might have trouble getting suitable specular for indoor areas.
+* All surfaces that can be optimized by r_vbo (diffuse*lightmap, no fancy alpha, blending or tcmods)
+   will try and load an automatic normal map stage. Anything on the fallback path will render normally.
+
+
+It will try and search for filename_n.tga for existing textures
+eg:  textures\sweetnutz\sn_dirt1.jpg 
+     will get bumpy if you add
+     textures\sweetnutz\sn_dirt1_n.tga
+
+It expects normals in the standard rgb/xyz format (the light blue ones)
+The alpha channel of the normalmap is used to control specularity
+
+
+About the Techniques:
+
+Radiosity bumping is done by taking Four (not three) lighting probes in various orientations at each surface luxel (improved on hl2s method)
+Specular is done by cubemap "probes" automatically placed around the level and assigned to each surface, which are then messed with to get the luminance at each pixel. (hl2 specular style)
+Parallax mapping is the simplest version, straight uv offset based on a tangentspace view vector.
+Bloom is a high pass filter based on pixel luminance, thats then blured/added. 
+
+
+TwentySeven
+Peter McNeill
+n27@tpg.com.au
+
+
+
+
+

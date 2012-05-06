@@ -1,0 +1,2 @@
+PLATFORM=mingw32
+CC=gcc
