@@ -545,9 +545,9 @@ issues.
 #define	MAX_FILE_HANDLES	64
 
 #ifdef DEDICATED
-#	define Q3CONFIG_CFG "urtconfig_server.cfg"
+#	define Q3CONFIG_CFG "server.cfg"
 #else
-#	define Q3CONFIG_CFG "urtconfig.cfg"
+#	define Q3CONFIG_CFG "q3config.cfg"
 #endif
 
 
