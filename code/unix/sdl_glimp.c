@@ -158,7 +158,7 @@ qboolean GLimp_sdl_init_video(void)
 */
 // bk001130 - from cvs1.17 (mkv), const
 // bk001130 - made first argument const
-static const char *Q_stristr( const char *s, const char *find)
+const char *Q_stristr( const char *s, const char *find)
 {
   register char c, sc;
   register size_t len;
