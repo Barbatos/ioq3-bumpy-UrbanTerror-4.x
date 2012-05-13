@@ -134,6 +134,10 @@ ifndef USE_LOCAL_HEADERS
 USE_LOCAL_HEADERS=1
 endif
 
+ifndef USE_INTERNAL_JPEG
+USE_INTERNAL_JPEG=1
+endif
+
 #############################################################################
 
 BD=$(BUILD_DIR)/debug-$(PLATFORM)-$(ARCH)
@@ -150,7 +154,7 @@ BLIBDIR=$(MOUNT_DIR)/botlib
 NDIR=$(MOUNT_DIR)/null
 UIDIR=$(MOUNT_DIR)/ui
 Q3UIDIR=$(MOUNT_DIR)/q3_ui
-JPDIR=$(MOUNT_DIR)/jpeg-6
+JPDIR=$(MOUNT_DIR)/jpeg-6b
 TOOLSDIR=$(MOUNT_DIR)/tools
 LOKISETUPDIR=$(UDIR)/setup
 SDLHDIR=$(MOUNT_DIR)/SDL12
@@ -764,6 +768,13 @@ ifeq ($(USE_LOCAL_HEADERS),1)
   BASE_CFLAGS += -DUSE_LOCAL_HEADERS=1
 endif
 
+ifeq ($(USE_INTERNAL_JPEG),1)
+  BASE_CFLAGS += -DUSE_INTERNAL_JPEG
+  BASE_CFLAGS += -I$(JPDIR)
+else
+  CLIENT_LDFLAGS += -ljpeg
+endif
+
 ifeq ($(GENERATE_DEPENDENCIES),1)
   BASE_CFLAGS += -MMD
 endif
@@ -1010,6 +1021,11 @@ Q3OBJ = \
   $(B)/client/tr_flares.o \
   $(B)/client/tr_font.o \
   $(B)/client/tr_image.o \
+  $(B)/client/tr_image_tga.o \
+  $(B)/client/tr_image_jpg.o \
+  $(B)/client/tr_image_png.o \
+  $(B)/client/tr_image_pcx.o \
+  $(B)/client/tr_image_bmp.o \
   $(B)/client/tr_init.o \
   $(B)/client/tr_light.o \
   $(B)/client/tr_main.o \
@@ -1025,6 +1041,57 @@ Q3OBJ = \
   $(B)/client/tr_sky.o \
   $(B)/client/tr_surface.o \
   $(B)/client/tr_world.o \
+  \
+  $(B)/client/tr_frag.o \
+
+ifneq ($(USE_INTERNAL_JPEG),0)
+  Q3OBJ += \
+    $(B)/client/jcapimin.o \
+    $(B)/client/jcapistd.o \
+    $(B)/client/jccoefct.o  \
+    $(B)/client/jccolor.o \
+    $(B)/client/jcdctmgr.o \
+    $(B)/client/jchuff.o   \
+    $(B)/client/jcinit.o \
+    $(B)/client/jcmainct.o \
+    $(B)/client/jcmarker.o \
+    $(B)/client/jcmaster.o \
+    $(B)/client/jcomapi.o \
+    $(B)/client/jcparam.o \
+    $(B)/client/jcprepct.o \
+    $(B)/client/jcsample.o \
+    $(B)/client/jctrans.o \
+    $(B)/client/jdapimin.o \
+    $(B)/client/jdapistd.o \
+    $(B)/client/jdatadst.o \
+    $(B)/client/jdatasrc.o \
+    $(B)/client/jdcoefct.o \
+    $(B)/client/jdcolor.o \
+    $(B)/client/jddctmgr.o \
+    $(B)/client/jdhuff.o \
+    $(B)/client/jdinput.o \
+    $(B)/client/jdmainct.o \
+    $(B)/client/jdmarker.o \
+    $(B)/client/jdmaster.o \
+    $(B)/client/jdmerge.o \
+    $(B)/client/jdpostct.o \
+    $(B)/client/jdsample.o \
+    $(B)/client/jdtrans.o \
+    $(B)/client/jerror.o \
+    $(B)/client/jfdctflt.o \
+    $(B)/client/jfdctfst.o \
+    $(B)/client/jfdctint.o \
+    $(B)/client/jidctflt.o \
+    $(B)/client/jidctfst.o \
+    $(B)/client/jidctint.o \
+    $(B)/client/jmemmgr.o \
+    $(B)/client/jmemnobs.o \
+    $(B)/client/jquant1.o \
+    $(B)/client/jquant2.o \
+    $(B)/client/jutils.o \
+	\
+	$(B)/client/jcphuff.o
+endif
 
 ifeq ($(ARCH),i386)
   Q3OBJ += \

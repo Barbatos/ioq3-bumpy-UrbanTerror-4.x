@@ -684,8 +684,7 @@ static float RB_GetAutoFocus( void )
 }
 
 
-void RB_PostProcess()
-{
+void RB_PostProcess( void ) {
 	int loc;
 	float offset;
 	float HdrCut=0.0f;

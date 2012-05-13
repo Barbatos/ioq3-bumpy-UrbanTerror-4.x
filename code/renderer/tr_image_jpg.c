@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  * You may also wish to include "jerror.h".
  */
 
+
 #define JPEG_INTERNALS
 #include "../jpeg-6b/jpeglib.h"
 
