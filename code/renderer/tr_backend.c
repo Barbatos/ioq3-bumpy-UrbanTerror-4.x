@@ -35,7 +35,6 @@ static float	s_flipMatrix[16] = {
 	0, 0, 0, 1
 };
 
-
 /*
 ** GL_Bind
 */

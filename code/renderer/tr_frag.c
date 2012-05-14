@@ -1281,11 +1281,11 @@ void R_BuildCubeMaps( void )
 						b=dest[xy+2];
 						
 						//calculate luminosity as  (max+min) /2 
-						lum = max (r, g);
-						realmax = max(b, lum);
+						lum = MAX(r, g);
+						realmax = MAX(b, lum);
 
-						lum = min (r, g);
-						realmin = min( b, lum);
+						lum = MIN(r, g);
+						realmin = MIN( b, lum);
 
 						lum =  (  realmax + realmin ) * 0.5f;
 

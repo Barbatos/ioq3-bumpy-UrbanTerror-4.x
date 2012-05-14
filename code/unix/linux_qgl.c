@@ -424,6 +424,41 @@ void ( APIENTRY * qgl3DfxSetPaletteEXT)( GLuint * );
 void ( APIENTRY * qglSelectTextureSGIS)( GLenum );
 void ( APIENTRY * qglMTexCoord2fSGIS)( GLenum, GLfloat, GLfloat );
 
+void ( APIENTRY * qglBindBufferARB) ( GLenum target, GLuint buffer );
+GLvoid (APIENTRY * qglAttachObjectARB) (GLhandleARB containerObj, GLhandleARB obj);
+GLvoid (APIENTRY * qglBindFramebufferEXT) (GLenum target, GLuint framebuffer);
+GLvoid (APIENTRY * qglBindRenderbufferEXT) (GLenum target, GLuint renderbuffer);
+void (APIENTRY * qglBufferDataARB) (GLenum target, GLsizeiptrARB size, const GLvoid * data, GLenum usage);
+GLenum (APIENTRY * qglCheckFramebufferStatusEXT) (GLenum target);
+GLvoid (APIENTRY * qglCompileShaderARB) (GLhandleARB shaderObj);
+GLhandleARB (APIENTRY * qglCreateProgramObjectARB) (void);
+GLhandleARB (APIENTRY * qglCreateShaderObjectARB) (GLenum shaderType);
+GLvoid (APIENTRY * qglEnableVertexAttribArrayARB) (GLuint index);
+GLvoid (APIENTRY * qglDisableVertexAttribArrayARB) (GLuint index);
+GLvoid (APIENTRY * qglFramebufferRenderbufferEXT) (GLenum target, GLenum attachment,
+					       GLenum renderbuffertarget, GLuint renderbuffer);
+GLvoid (APIENTRY * qglFramebufferTexture2DEXT) (GLenum target, GLenum attachment,
+					    GLenum textarget, GLuint texture, GLint level);
+void (APIENTRY * qglGenBuffersARB) (GLsizei n, GLuint * buffers);
+GLvoid (APIENTRY * qglGenFramebuffersEXT) (GLsizei n, GLuint *framebuffers);
+GLvoid (APIENTRY * qglGenRenderbuffersEXT) (GLsizei n, GLuint *renderbuffers);
+GLint(APIENTRY * qglGetAttribLocationARB) (GLhandleARB programObj, const GLcharARB * name);
+GLvoid (APIENTRY * qglGetInfoLogARB) (GLhandleARB obj, GLsizei maxLength, GLsizei *length, GLcharARB *infoLog);
+GLvoid (APIENTRY * qglGetObjectParameterivARB) (GLhandleARB obj, GLenum pname, GLint *params);
+GLint(APIENTRY * qglGetUniformLocationARB) (GLhandleARB programObj, const GLcharARB * name);
+GLvoid (APIENTRY * qglLinkProgramARB) (GLhandleARB programObj);
+GLvoid (APIENTRY * qglRenderbufferStorageEXT) (GLenum target, GLenum internalformat,
+					   GLsizei width, GLsizei height);
+GLvoid (APIENTRY * qglShaderSourceARB) (GLhandleARB shaderObj, GLsizei count, const GLcharARB **string,
+				       const GLint *length);
+GLvoid (APIENTRY * qglUniform1fARB) (GLint location, GLfloat v0);
+GLvoid (APIENTRY * qglUniform1iARB) (GLint location, GLint v0);
+GLvoid (APIENTRY * qglUniform3fARB) (GLint location, GLfloat v0, GLfloat v1, GLfloat v2);
+GLvoid (APIENTRY * qglUniform4fARB) (GLint location, GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3);
+GLvoid (APIENTRY * qglUseProgramObjectARB) (GLhandleARB programObj);
+GLvoid (APIENTRY * qglVertexAttribPointerARB) (GLuint index, GLint size, GLenum type, GLboolean normalized,
+					      GLsizei stride, const GLvoid *pointer);
+
 static void ( APIENTRY * dllAccum )(GLenum op, GLfloat value);
 static void ( APIENTRY * dllAlphaFunc )(GLenum func, GLclampf ref);
 GLboolean ( APIENTRY * dllAreTexturesResident )(GLsizei n, const GLuint *textures, GLboolean *residences);
@@ -3038,6 +3073,36 @@ void QGL_Shutdown( void )
 	qglXCopyContext              = NULL;
 	qglXSwapBuffers              = NULL;
 #endif
+
+    qglBindBufferARB = NULL;
+    qglAttachObjectARB = NULL;
+    qglBindFramebufferEXT = NULL;
+    qglBindRenderbufferEXT = NULL;
+    qglBufferDataARB = NULL;
+    qglCheckFramebufferStatusEXT = NULL;
+    qglCompileShaderARB = NULL;
+    qglCreateProgramObjectARB = NULL;
+    qglCreateShaderObjectARB = NULL;
+    qglDisableVertexAttribArrayARB = NULL;
+    qglEnableVertexAttribArrayARB = NULL;
+    qglFramebufferRenderbufferEXT = NULL;
+    qglFramebufferTexture2DEXT = NULL;
+    qglGenBuffersARB = NULL;
+    qglGenFramebuffersEXT = NULL;
+    qglGenRenderbuffersEXT = NULL;
+    qglGetAttribLocationARB = NULL;
+    qglGetInfoLogARB = NULL;
+    qglGetObjectParameterivARB = NULL;
+    qglGetUniformLocationARB = NULL;
+    qglLinkProgramARB = NULL;
+    qglRenderbufferStorageEXT = NULL;
+    qglShaderSourceARB = NULL;
+    qglUniform1fARB = NULL;
+    qglUniform1iARB = NULL;
+    qglUniform3fARB = NULL;
+    qglUniform4fARB = NULL;
+    qglUseProgramObjectARB = NULL;
+    qglVertexAttribPointerARB = NULL;
 }
 
 #if USE_SDL_VIDEO
@@ -3471,6 +3536,36 @@ qboolean QGL_Init( const char *dllname )
 	qglActiveTextureARB = NULL;
 	qglClientActiveTextureARB = NULL;
 	qglMultiTexCoord2fARB = NULL;
+
+    qglBindBufferARB = GPA( "glBindBufferARB" );
+    qglAttachObjectARB = GPA( "glAttachObjectARB" );
+    qglBindFramebufferEXT = GPA( "glBindFramebufferEXT" );
+    qglBindRenderbufferEXT = GPA( "glBindRenderbufferEXT" );
+    qglBufferDataARB = GPA( "glBufferDataARB" );
+    qglCheckFramebufferStatusEXT = GPA( "glCheckFramebufferStatusEXT" );
+    qglCompileShaderARB = GPA( "glCompileShaderARB" );
+    qglCreateProgramObjectARB = GPA( "glCreateProgramObjectARB" );
+    qglCreateShaderObjectARB = GPA( "glCreateShaderObjectARB" );
+    qglDisableVertexAttribArrayARB = GPA( "glDisableVertexAttribArrayARB" );
+    qglEnableVertexAttribArrayARB = GPA( "glEnableVertexAttribArrayARB" );
+    qglFramebufferRenderbufferEXT = GPA( "glFramebufferRenderbufferEXT" );
+    qglFramebufferTexture2DEXT = GPA( "glFramebufferTexture2DEXT" );
+    qglGenBuffersARB = GPA( "glGenBuffersARB" );
+    qglGenFramebuffersEXT = GPA( "glGenFramebuffersEXT" );
+    qglGenRenderbuffersEXT = GPA( "glGenRenderbuffersEXT" );
+    qglGetAttribLocationARB = GPA( "glGetAttribLocationARB" );
+    qglGetInfoLogARB = GPA( "glGetInfoLogARB" );
+    qglGetObjectParameterivARB = GPA( "glGetObjectParameterivARB" );
+    qglGetUniformLocationARB = GPA( "glGetUniformLocationARB" );
+    qglLinkProgramARB = GPA( "glLinkProgramARB" );
+    qglRenderbufferStorageEXT = GPA( "glRenderbufferStorageEXT" );
+    qglShaderSourceARB = GPA( "glShaderSourceARB" );
+    qglUniform1fARB = GPA( "glUniform1fARB" );
+    qglUniform1iARB = GPA( "glUniform1iARB" );
+    qglUniform3fARB = GPA( "glUniform3fARB" );
+    qglUniform4fARB = GPA( "glUniform4fARB" );
+    qglUseProgramObjectARB = GPA( "glUseProgramObjectARB" );
+    qglVertexAttribPointerARB = GPA( "glVertexAttribPointerARB" );
 
 	return qtrue;
 }

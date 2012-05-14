@@ -865,9 +865,11 @@ targets: makedirs tools
 	do \
 		echo "    $$i"; \
 	done
-	@echo ""
 ifneq ($(strip $(TARGETS)),) # this avoids a nasty recursion if the target list is empty
+	@echo ""
 	@$(MAKE) $(TARGETS) V=$(V)
+else
+	@echo "no targets!"
 endif
 
 makedirs:
