@@ -150,40 +150,6 @@ static int mouse_accel_numerator;
 static int mouse_accel_denominator;
 static int mouse_threshold;    
 
-/*
-* Find the first occurrence of find in s.
-*/
-// bk001130 - from cvs1.17 (mkv), const
-// bk001130 - made first argument const
-static const char *Q_stristr( const char *s, const char *find)
-{
-  register char c, sc;
-  register size_t len;
-
-  if ((c = *find++) != 0)
-  {
-    if (c >= 'a' && c <= 'z')
-    {
-      c -= ('a' - 'A');
-    }
-    len = strlen(find);
-    do
-    {
-      do
-      {
-        if ((sc = *s++) == 0)
-          return NULL;
-        if (sc >= 'a' && sc <= 'z')
-        {
-          sc -= ('a' - 'A');
-        }
-      } while (sc != c);
-    } while (Q_stricmpn(s, find, len) != 0);
-    s--;
-  }
-  return s;
-}
-
 /*****************************************************************************
 ** KEYBOARD
 ** NOTE TTimo the keyboard handling is done with KeySyms
@@ -1040,9 +1006,6 @@ int GLW_SetMode( const char *drivername, int mode, qboolean fullscreen )
   else
     colorbits = r_colorbits->value;
 
-  if ( !Q_stricmp( r_glDriver->string, _3DFX_DRIVER_NAME ) )
-    colorbits = 16;
-
   if (!r_depthbits->value)
     depthbits = 24;
   else
@@ -1275,24 +1238,6 @@ static void GLW_InitExtensions( void )
       qglMultiTexCoord2fARB = ( PFNGLMULTITEXCOORD2FARBPROC ) dlsym( glw_state.OpenGLLib, "glMultiTexCoord2fARB" );
       qglActiveTextureARB = ( PFNGLACTIVETEXTUREARBPROC ) dlsym( glw_state.OpenGLLib, "glActiveTextureARB" );
       qglClientActiveTextureARB = ( PFNGLCLIENTACTIVETEXTUREARBPROC ) dlsym( glw_state.OpenGLLib, "glClientActiveTextureARB" );
-
-      if ( qglActiveTextureARB )
-      {
-        GLint glint = 0;
-        qglGetIntegerv( GL_MAX_ACTIVE_TEXTURES_ARB, &glint );
-        glConfig.maxActiveTextures = (int) glint;
-
-        if ( glConfig.maxActiveTextures > 1 )
-        {
-          ri.Printf( PRINT_ALL, "...using GL_ARB_multitexture\n" );
-        } else
-        {
-          qglMultiTexCoord2fARB = NULL;
-          qglActiveTextureARB = NULL;
-          qglClientActiveTextureARB = NULL;
-          ri.Printf( PRINT_ALL, "...not using GL_ARB_multitexture, < 2 texture units\n" );
-        }
-      }
     } else
     {
       ri.Printf( PRINT_ALL, "...ignoring GL_ARB_multitexture\n" );
@@ -1450,7 +1395,6 @@ void GLimp_Init( void )
 {
   qboolean attemptedlibGL = qfalse;
   qboolean attempted3Dfx = qfalse;
-  qboolean success = qfalse;
   char  buf[1024];
   cvar_t *lastValidRenderer = ri.Cvar_Get( "r_lastValidRenderer", "(uninitialized)", CVAR_ARCHIVE );
 
@@ -1485,48 +1429,10 @@ void GLimp_Init( void )
   //
   // load and initialize the specific OpenGL driver
   //
-  if ( !GLW_LoadOpenGL( r_glDriver->string ) )
-  {
-    if ( !Q_stricmp( r_glDriver->string, OPENGL_DRIVER_NAME ) )
-    {
-      attemptedlibGL = qtrue;
-    } else if ( !Q_stricmp( r_glDriver->string, _3DFX_DRIVER_NAME ) )
-    {
-      attempted3Dfx = qtrue;
-    }
-
-    #if 0
-    // TTimo
-    // https://zerowing.idsoftware.com/bugzilla/show_bug.cgi?id=455
-    // old legacy load code, was confusing people who had a bad OpenGL setup
-    if ( !attempted3Dfx && !success )
-    {
-      attempted3Dfx = qtrue;
-      if ( GLW_LoadOpenGL( _3DFX_DRIVER_NAME ) )
-      {
-        ri.Cvar_Set( "r_glDriver", _3DFX_DRIVER_NAME );
-        r_glDriver->modified = qfalse;
-        success = qtrue;
-      }
-    }
-    #endif
-
-    // try ICD before trying 3Dfx standalone driver
-    if ( !attemptedlibGL && !success )
-    {
-      attemptedlibGL = qtrue;
-      if ( GLW_LoadOpenGL( OPENGL_DRIVER_NAME ) )
-      {
-        ri.Cvar_Set( "r_glDriver", OPENGL_DRIVER_NAME );
-        r_glDriver->modified = qfalse;
-        success = qtrue;
-      }
-    }
-
-    if (!success)
-      ri.Error( ERR_FATAL, "GLimp_Init() - could not load OpenGL subsystem\n" );
-
+  if ( !GLW_LoadOpenGL( r_glDriver->string ) ) {
+    ri.Error( ERR_FATAL, "GLimp_Init() - could not load OpenGL subsystem\n" );
   }
+
 
   // Save it in case the UI stomps it
   ri.Cvar_Set( "r_previousglDriver", r_glDriver->string );
@@ -1813,9 +1719,7 @@ void IN_Frame (void) {
     // temporarily deactivate if not in the game and
     // running on the desktop
     // voodoo always counts as full screen
-    if (Cvar_VariableValue ("r_fullscreen") == 0
-        && strcmp( Cvar_VariableString("r_glDriver"), _3DFX_DRIVER_NAME ) )
-    {
+    if ( Cvar_VariableValue("r_fullscreen") == 0 ) {
       IN_DeactivateMouse ();
       return;
     }

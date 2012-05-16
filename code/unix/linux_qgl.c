@@ -39,12 +39,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "../renderer/tr_local.h"
 #include "unix_glw.h"
 
-// bk001129 - from cvs1.17 (mkv)
-//#if defined(__FX__)
-//#include <GL/fxmesa.h>
-//#endif
-//#include <GL/glx.h> // bk010216 - FIXME: all of the above redundant? renderer/qgl.h
-
 #if defined(USE_SDL_VIDEO)
 #include "SDL.h"
 #include "SDL_loadso.h"
